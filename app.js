@@ -14,8 +14,9 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const userRoutes = require('./routes/users')
 const dashboardRoutes = require('./routes/dashboard')
+const MongoStore = require("connect-mongo");
 
-const dbUrl = 'mongodb://localhost:27017/hr1';
+const dbUrl = process.env.DB_URL ||'mongodb://localhost:27017/hr1';
 
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
@@ -23,6 +24,19 @@ mongoose.connect(dbUrl, {
     useUnifiedTopology: true,
     useFindAndModify:false
 });
+const secret = process.env.SECRET || 'thisshouldbebettersecret';
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret
+    }
+});
+
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e)
+})
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -42,7 +56,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const sessionConfig = {
     name: 'session',
-    secret: 'thisshouldbebettersecret',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
