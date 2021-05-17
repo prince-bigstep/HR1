@@ -1,0 +1,24 @@
+<% layout('layouts/boilerplate') %>
+    <main class="px-3">
+        <% if (currentUser.designation == 'Admin') {%> 
+        <h6 class="lead"> Welcome back <%= currentUser.username %> !!! <br> This is your personalized attendance Dashboard</h6>
+        <% } else{%>
+        <h6 class="lead"> Welcome back <%= currentUser.username %> !!! <br> This is a personalized attendance Portal for your company</h6>
+        <% } %>  
+        <form action="/show" method="GET" class="validated-form" novalidate>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="employeeId">Employee</label>
+                <select class="form-select" id="employeeId" name="employeeId" required>
+                <option selected>Choose...</option>
+                <% for (let user of users){%>
+                <option value="<%=user._id%>"><%=user.username%></option>
+                <% } %> 
+                </select>
+            </div>
+            <button class="btn btn-success btn-block">View Employee</button>
+        </form>
+    </main>
+    <footer class="mt-auto text-white-50">
+        <p>&copy; 2021 </p>
+    </footer>
+</div>  

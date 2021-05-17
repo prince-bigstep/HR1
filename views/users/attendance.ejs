@@ -1,0 +1,30 @@
+<% layout('layouts/boilerplate') %>
+<h1>All Requests</h1>
+<form action="/attendance" method="POST">
+    <button class="btn btn-success">Mark Attendance</button>
+</form> 
+<% for (let request of user.requests.reverse()){%>
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Date: <%= request.date.toLocaleDateString() %> </h5>
+                    <p class="card-text">Punch Time: <%= request.date.toLocaleTimeString() %> </p>  
+                    <p class="card-text">Punch Type: <%= request.type %> </p> 
+                    <p class="card-text">
+                        <small class="text-muted">
+                            Status: <%= request.status %> 
+                        </small> 
+                    </p>      
+                </div>
+                <% if(request.status != 'Approved') {%> 
+                <div class="card-body">
+                    <form class="d-inline" action="/request/<%= request._id %>?_method=DELETE" method='POST'>
+                        <button class="btn btn-danger">Cancel</button>
+                    </form>
+                </div>
+                <% } %> 
+            </div>
+        </div>
+    </div>
+<%}%> 

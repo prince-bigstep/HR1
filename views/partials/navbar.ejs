@@ -1,0 +1,32 @@
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">HR1</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="navbar-nav">
+        <% if(currentUser) {%> 
+        <a class="nav-link" href="/dashboard">Home</a> 
+
+        <% if(currentUser.designation == 'Employee') { %>
+          <a class="nav-link" href="/attendance">Attendance</a>
+        <% } else { %>
+          <a class="nav-link" href="/register">Register New Employee</a> 
+        <% } %> 
+        <% if(currentUser.mentees.length > 0) { %>
+          <a class="nav-link" href="/mentee/requests">Mentee Requests</a>   
+        <% }%>
+        <% } else{%> 
+          <a class="nav-link" href="/">Home</a>
+          <a class="nav-link" href="/register">Register New Employee</a> 
+        <% } %> 
+      </div>
+      <div class="navbar-nav ms-auto">
+        <% if(currentUser) {%> 
+          <a class="nav-link" href="/logout">Logout</a> 
+        <% } %> 
+      </div>
+    </div>
+  </div>
+</nav>
