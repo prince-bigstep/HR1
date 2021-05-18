@@ -17,6 +17,12 @@ Initialize database using seed.js by running this command:
 ```npm
 npm seed
 ```
+Credentials for admin will be provided in console after this command.
+Run the app using following command:
+```npm
+npm start
+```
+
 Use the credentials provided in console to login as first user("admin").
 App can accessed on localhost 
 ```http
