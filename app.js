@@ -24,19 +24,6 @@ mongoose.connect(dbUrl, {
     useUnifiedTopology: true,
     useFindAndModify:false
 });
-const secret = process.env.SECRET || 'thisshouldbebettersecret';
-
-const store = MongoStore.create({
-    mongoUrl: dbUrl,
-    touchAfter: 24 * 60 * 60,
-    crypto: {
-        secret
-    }
-});
-
-store.on("error", function (e) {
-    console.log("SESSION STORE ERROR", e)
-})
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -53,6 +40,20 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname, 'public')));
+
+const secret = process.env.SECRET || 'thisshouldbebettersecret';
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret
+    }
+});
+
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e)
+})
 
 const sessionConfig = {
     name: 'session',
